@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d1b">
+  <meta name="description" content="Unhinged Chat — the unofficial chaos dashboard.">
+  <title>Unhinged Chat | Chaos Control</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app" id="top">
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Unhinged Chat home">
+        <span class="brand-icon">♞</span>
+        <span class="brand-copy">
+          <strong>UNHINGED CHAT</strong>
+          <small>CONTROL CENTER</small>
+        </span>
+      </a>
+
+      <div class="header-actions">
+        <span class="live-status"><span class="live-dot"></span> ONLINE</span>
+        <button class="icon-button" id="themeToggle"
+          type="button" aria-label="Switch to light mode" title="Toggle theme">
+          <span id="themeIcon">☼</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero panel">
+        <div class="hero-content">
+          <span class="eyebrow">WELCOME TO THE VOID</span>
+          <h1>Stay weird.<br><span>Play chess.</span></h1>
+          <p>A perfectly normal club for perfectly normal people.</p>
+
+          <div class="hero-actions">
+            <a class="button primary"
+              href="https://www.chess.com/club/unhinged-chat/"
+              target="_blank" rel="noopener noreferrer">
+              OPEN CLUB <span>↗</span>
+            </a>
+            <button class="button secondary" id="chaosButton" type="button">
+              SUMMON CHAOS <span>✳</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+          <div class="orbit orbit-3"></div>
+          <div class="orbit-knight">♞</div>
+          <span class="orbit-tag tag-1">NO CONTEXT</span>
+          <span class="orbit-tag tag-2">ALL CHAOS</span>
+          <span class="orbit-star star-1">✦</span>
+          <span class="orbit-star star-2">✧</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">YOUR SHORTCUTS</span>
+            <h2>Club access</h2>
+          </div>
+          <span class="section-label">01 / NAVIGATION</span>
+        </div>
+
+        <div class="shortcut-grid">
+          <a class="shortcut" href="https://www.chess.com/club/unhinged-chat/"
+             target="_blank" rel="noopener noreferrer">
+            <span class="shortcut-icon">♟</span>
+            <span class="shortcut-copy">
+              <strong>Open club</strong>
+              <small>Enter the madhouse</small>
+            </span>
+            <span class="arrow">↗</span>
+          </a>
+
+          <a class="shortcut" href="https://www.chess.com/clubs/forum/unhinged-chat/"
+             target="_blank" rel="noopener noreferrer">
+            <span class="shortcut-icon">☷</span>
+            <span class="shortcut-copy">
+              <strong>Club forums</strong>
+              <small>Where context goes to die</small>
+            </span>
+            <span class="arrow">↗</span>
+          </a>
+
+          <a class="shortcut" href="https://www.chess.com/clubs/members/unhinged-chat/"
+             target="_blank" rel="noopener noreferrer">
+            <span class="shortcut-icon">◎</span>
+            <span class="shortcut-copy">
+              <strong>Club members</strong>
+              <small>Meet the suspects</small>
+            </span>
+            <span class="arrow">↗</span>
+          </a>
+
+          <a class="shortcut" href="https://www.chess.com/clubs/about/unhinged-chat/"
+             target="_blank" rel="noopener noreferrer">
+            <span class="shortcut-icon">ⓘ</span>
+            <span class="shortcut-copy">
+              <strong>About the club</strong>
+              <small>Read the official lore</small>
+            </span>
+            <span class="arrow">↗</span>
+          </a>
+        </div>
+
+        <div class="invite-row">
+          <div class="invite-copy">
+            <span class="invite-icon">＋</span>
+            <span>
+              <strong>Know someone who belongs here?</strong>
+              <small>Send them an invitation.</small>
+            </span>
+          </div>
+          <button class="button outline" id="copyInvite" type="button">
+            COPY JOIN LINK <span>⧉</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel feature-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">QUESTIONABLE WISDOM</span>
+              <h2>Cursed quote</h2>
+            </div>
+            <span class="quote-mark">“ ”</span>
+          </div>
+
+          <blockquote id="quoteText" aria-live="polite">
+            My last brain cell just blundered a rook.
+          </blockquote>
+
+          <div class="panel-footer">
+            <span class="tiny-status"><span class="live-dot"></span> UNVERIFIED</span>
+            <button class="text-button" id="newQuote" type="button">
+              ANOTHER ONE ↻
+            </button>
+          </div>
+        </article>
+
+        <article class="panel feature-panel question-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">FORUM FUEL</span>
+              <h2>Random question</h2>
+            </div>
+            <span class="question-mark">?</span>
+          </div>
+
+          <p id="questionText" class="question-text" aria-live="polite">
+            Would you rather fight one horse-sized knight or eight pawn-sized rooks?
+          </p>
+
+          <div class="panel-footer">
+            <button class="button secondary small" id="newQuestion" type="button">
+              NEW QUESTION ↻
+            </button>
+            <button class="icon-button" id="copyQuestion" type="button"
+              aria-label="Copy current question" title="Copy question">⧉</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel chaos-panel" id="chaosPanel">
+        <div class="chaos-emblem" aria-hidden="true">✳</div>
+        <div class="chaos-copy">
+          <span class="eyebrow">THE CHAOS ENGINE</span>
+          <h2 id="chaosTitle">Everything is under control.</h2>
+          <p id="chaosMessage" aria-live="polite">
+            This message is legally not a guarantee.
+          </p>
+        </div>
+        <button class="button primary" id="chaosAgain" type="button">
+          DO IT AGAIN ↻
+        </button>
+      </section>
+
+      <section class="info-grid">
+        <article class="panel info-card">
+          <span class="eyebrow">LOCAL TIME</span>
+          <div class="clock" id="clock">--:--:--</div>
+          <div class="info-caption">YOUR DEVICE'S TIME</div>
+        </article>
+
+        <article class="panel info-card date-card">
+          <span class="eyebrow">TEMPORAL INFORMATION</span>
+          <div class="date-value" id="dateDay">Loading date...</div>
+          <div class="info-caption">YES, TIME IS REAL. UNFORTUNATELY.</div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <span><span class="footer-knight">♞</span> UNHINGED CHAT
+          <span class="footer-muted">/ unofficial club companion</span>
+        </span>
+        <div class="footer-actions">
+          <button class="text-button" id="viewToggle" type="button">
+            COMPACT VIEW ↘
+          </button>
+          <button class="text-button" id="backToTop" type="button">
+            BACK TO TOP ↑
+          </button>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
