@@ -1,265 +1,135 @@
 
 "use strict";
 
-/* =========================================
-   UNHINGED CHAT — CHAOS CONTROL
-   Vanilla JavaScript. No libraries required.
-========================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const root = document.documentElement;
+  const body = document.body;
 
-const CLUB_URL = "https://www.chess.com/club/unhinged-chat/";
-const FORUM_URL = "https://www.chess.com/clubs/forum/unhinged-chat/";
-const MEMBERS_URL = "https://www.chess.com/clubs/members/unhinged-chat/";
-const ABOUT_URL = "https://www.chess.com/clubs/about/unhinged-chat/";
+  const themeToggle = document.getElementById("themeToggle");
+  const viewToggle = document.getElementById("viewToggle");
+  const backToTop = document.getElementById("backToTop");
 
-const INVITE_URL =
-  "https://www.chess.com/club/unhinged-chat/join?utm_campaign=club_invite_link&utm_source=chesscom&utm_medium=copy";
+  const clock = document.getElementById("clock");
+  const date = document.getElementById("date");
+  const day = document.getElementById("day");
 
-// These links are also declared in index.html for navigation.
-// Keeping the URLs here makes them easy to update later.
-const LINKS = {
-  club: CLUB_URL,
-  forums: FORUM_URL,
-  members: MEMBERS_URL,
-  about: ABOUT_URL
-};
-/* =========================================
-   ELEMENTS
-========================================= */
+  const TIME_ZONE = "Europe/Berlin";
 
-const $ = (selector) => document.querySelector(selector);
-
-const quoteText = $("#quoteText");
-const questionText = $("#questionText");
-const clockElement = $("#clock");
-const dateElement = $("#dateDay");
-const toastElement = $("#toast");
-
-let lastQuoteIndex = -1;
-let lastQuestionIndex = -1;
-let lastChaosIndex = -1;
-let toastTimer = null;
-let chaosTimer = null;
-
-/* =========================================
-   HELPERS
-========================================= */
-
-function randomIndex(length, previousIndex) {
-  if (length <= 1) return 0;
-
-  let index;
-
-  do {
-    index = Math.floor(Math.random() * length);
-  } while (index === previousIndex);
-
-  return index;
-}
-
-function showToast(message) {
-  if (!toastElement) return;
-
-  toastElement.textContent = message;
-  toastElement.classList.add("visible");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => {
-    toastElement.classList.remove("visible");
-  }, 2300);
-}
-
-
-/* =========================================
-   COPY TO CLIPBOARD
-========================================= */
-
-async function copyText(text, successMessage) {
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      // Fallback for browsers where Clipboard API is unavailable.
-      const textarea = document.createElement("textarea");
-
-      textarea.value = text;
-      textarea.setAttribute("readonly", "");
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      textarea.style.pointerEvents = "none";
-
-      document.body.appendChild(textarea);
-      textarea.select();
-
-      const copied = document.execCommand("copy");
-      textarea.remove();
-
-      if (!copied) {
-        throw new Error("Copy command was unsuccessful.");
-      }
+  // Safely read saved settings.
+  function readSetting(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
     }
-
-    showToast(successMessage);
-  } catch (error) {
-    console.error("Clipboard error:", error);
-    showToast("Copy failed. Please copy the link or text manually.");
-  }
-}
-
-$("#copyInvite").addEventListener("click", () => {
-  copyText(INVITE_URL, "Club invitation link copied! ♟");
-});
-
-$("#copyQuestion").addEventListener("click", () => {
-  copyText(questionText.textContent.trim(), "Question copied!");
-});
-
-/* =========================================
-   DARK / LIGHT MODE
-========================================= */
-
-const themeToggle = $("#themeToggle");
-const themeIcon = $("#themeIcon");
-
-function applyTheme(theme, announce = false) {
-  const isLight = theme === "light";
-
-  document.body.classList.toggle("light", isLight);
-  themeIcon.textContent = isLight ? "☾" : "☼";
-
-  themeToggle.setAttribute(
-    "aria-label",
-    isLight ? "Switch to dark mode" : "Switch to light mode"
-  );
-
-  document.querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", isLight ? "#f2f6fd" : "#080d1b");
-
-  try {
-    localStorage.setItem("unhinged-theme", theme);
-  } catch {
-    // The theme still works if local storage is unavailable.
   }
 
-  if (announce) {
-    showToast(isLight ? "Light mode activated ☀" : "Dark mode activated 🌙");
-  }
-}
-
-let savedTheme = "dark";
-
-try {
-  savedTheme = localStorage.getItem("unhinged-theme") || "dark";
-} catch {
-  // Use dark mode by default.
-}
-
-applyTheme(savedTheme);
-
-themeToggle.addEventListener("click", () => {
-  const nextTheme = document.body.classList.contains("light")
-    ? "dark"
-    : "light";
-
-  applyTheme(nextTheme, true);
-});
-
-/* =========================================
-   COMPACT / FULL DASHBOARD VIEW
-========================================= */
-
-const viewToggle = $("#viewToggle");
-
-function applyView(compact, announce = false) {
-  document.body.classList.toggle("compact", compact);
-
-  viewToggle.textContent = compact
-    ? "FULL VIEW ↗"
-    : "COMPACT VIEW ↘";
-
-  viewToggle.setAttribute(
-    "aria-label",
-    compact ? "Switch to full dashboard view" : "Switch to compact sidebar view"
-  );
-
-  try {
-    localStorage.setItem("unhinged-view", compact ? "compact" : "full");
-  } catch {
-    // View switching still works without storage.
+  // Safely save settings.
+  function saveSetting(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      // The dashboard still works if storage is unavailable.
+    }
   }
 
-  if (announce) {
-    showToast(compact ? "Compact view activated." : "Full dashboard activated.");
+  // =========================
+  // DARK / LIGHT MODE
+  // =========================
+
+  function applyTheme(theme) {
+    const selectedTheme = theme === "light" ? "light" : "dark";
+
+    root.setAttribute("data-theme", selectedTheme);
+
+    themeToggle.textContent =
+      selectedTheme === "dark" ? "☀️ Light mode" : "🌙 Dark mode";
+
+    themeToggle.setAttribute(
+      "aria-label",
+      selectedTheme === "dark"
+        ? "Switch to light mode"
+        : "Switch to dark mode"
+    );
+
+    saveSetting("unhinged-theme", selectedTheme);
   }
-}
 
-let savedView = "full";
+  const savedTheme = readSetting("unhinged-theme");
+  applyTheme(savedTheme === "light" ? "light" : "dark");
 
-try {
-  savedView = localStorage.getItem("unhinged-view") || "full";
-} catch {
-  // Use full view by default.
-}
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = root.getAttribute("data-theme");
+    applyTheme(currentTheme === "dark" ? "light" : "dark");
+  });
 
-applyView(savedView === "compact");
+  // =========================
+  // COMPACT / FULL VIEW
+  // =========================
 
-viewToggle.addEventListener("click", () => {
-  const isCompact = !document.body.classList.contains("compact");
-  applyView(isCompact, true);
-});
+  function applyView(compact) {
+    body.classList.toggle("compact", compact);
 
-/* =========================================
-   LIVE CLOCK + DATE
-========================================= */
+    viewToggle.textContent = compact ? "Full View" : "Compact View";
 
-const timeFormatter = new Intl.DateTimeFormat(undefined, {
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false
-});
+    viewToggle.setAttribute(
+      "aria-label",
+      compact ? "Switch to full view" : "Switch to compact view"
+    );
 
-const dateFormatter = new Intl.DateTimeFormat(undefined, {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-  year: "numeric"
-});
+    saveSetting("unhinged-compact", compact ? "true" : "false");
+  }
 
-function updateDateTime() {
-  const now = new Date();
+  applyView(readSetting("unhinged-compact") === "true");
 
-  clockElement.textContent = timeFormatter.format(now);
-  dateElement.textContent = dateFormatter.format(now);
-}
+  viewToggle.addEventListener("click", () => {
+    applyView(!body.classList.contains("compact"));
+  });
 
-updateDateTime();
+  // =========================
+  // LIVE CLOCK
+  // =========================
 
-// Update at least once per second.
-setInterval(updateDateTime, 1000);
+  const timeFormatter = new Intl.DateTimeFormat("en-GB", {
+    timeZone: TIME_ZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false
+  });
 
-/* =========================================
-   BACK TO TOP
-========================================= */
+  const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+    timeZone: TIME_ZONE,
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
 
-$("#backToTop").addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+  const dayFormatter = new Intl.DateTimeFormat("en-GB", {
+    timeZone: TIME_ZONE,
+    weekday: "long"
+  });
+
+  function updateClockAndDate() {
+    const now = new Date();
+
+    clock.textContent = timeFormatter.format(now);
+    date.textContent = dateFormatter.format(now);
+    day.textContent = dayFormatter.format(now);
+  }
+
+  // Display immediately, then update every second.
+  updateClockAndDate();
+  window.setInterval(updateClockAndDate, 1000);
+
+  // =========================
+  // BACK TO TOP
+  // =========================
+
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   });
 });
-
-/* =========================================
-   INITIAL STATE
-========================================= */
-
-function initialiseDashboard() {
-  // Show fresh content on each page load.
-  generateQuote();
-  generateQuestion();
-
-  // Display a welcome toast only after a brief delay is not necessary;
-  // keep the initial page clean and quiet.
-}
-
-initialiseDashboard();
