@@ -5,14 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark light">
-  <title>Unhinged Chat | Chess Club</title>
+  <title>Unhinged Chat | World Dashboard</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
-
 <body>
-  <header class="topbar">
-    <a class="brand" href="https://www.chess.com/club/unhinged-chat/" target="_blank" rel="noopener noreferrer">
+  <header class="topbar" id="top">
+    <a class="brand"
+       href="https://www.chess.com/club/unhinged-chat/"
+       target="_blank" rel="noopener noreferrer">
       <span class="brand-icon">♞</span>
       <span>
         <strong>UNHINGED CHAT</strong>
@@ -31,13 +32,18 @@
         <div>
           <p class="eyebrow">YOUR CLUB</p>
           <h1>Club Dashboard</h1>
-          <p class="muted">Everything you need. None of the unnecessary chaos.</p>
+          <p class="muted">Your club links and a little window to the world.</p>
         </div>
-        <span class="status"><span class="status-dot"></span> CLUB HUB</span>
+        <span class="status">
+          <span class="status-dot"></span>
+          CLUB HUB
+        </span>
       </div>
 
       <div class="link-grid">
-        <a class="link-card" href="https://www.chess.com/club/unhinged-chat/" target="_blank" rel="noopener noreferrer">
+        <a class="link-card"
+           href="https://www.chess.com/club/unhinged-chat/"
+           target="_blank" rel="noopener noreferrer">
           <span class="card-icon">♞</span>
           <span class="card-copy">
             <strong>Open Club</strong>
@@ -46,7 +52,9 @@
           <span class="arrow">↗</span>
         </a>
 
-        <a class="link-card" href="https://www.chess.com/clubs/forum/unhinged-chat/" target="_blank" rel="noopener noreferrer">
+        <a class="link-card"
+           href="https://www.chess.com/clubs/forum/unhinged-chat/"
+           target="_blank" rel="noopener noreferrer">
           <span class="card-icon">💬</span>
           <span class="card-copy">
             <strong>Forums</strong>
@@ -55,7 +63,9 @@
           <span class="arrow">↗</span>
         </a>
 
-        <a class="link-card" href="https://www.chess.com/clubs/members/unhinged-chat/" target="_blank" rel="noopener noreferrer">
+        <a class="link-card"
+           href="https://www.chess.com/clubs/members/unhinged-chat/"
+           target="_blank" rel="noopener noreferrer">
           <span class="card-icon">👥</span>
           <span class="card-copy">
             <strong>Members</strong>
@@ -64,7 +74,9 @@
           <span class="arrow">↗</span>
         </a>
 
-        <a class="link-card" href="https://www.chess.com/clubs/about/unhinged-chat/" target="_blank" rel="noopener noreferrer">
+        <a class="link-card"
+           href="https://www.chess.com/clubs/about/unhinged-chat/"
+           target="_blank" rel="noopener noreferrer">
           <span class="card-icon">ℹ️</span>
           <span class="card-copy">
             <strong>About</strong>
@@ -73,7 +85,9 @@
           <span class="arrow">↗</span>
         </a>
 
-        <a class="link-card" href="https://www.chess.com/club/unhinged-chat/join?utm_campaign=club_invite_link&utm_source=chesscom&utm_medium=copy" target="_blank" rel="noopener noreferrer">
+        <a class="link-card"
+           href="https://www.chess.com/club/unhinged-chat/join?utm_campaign=club_invite_link&utm_source=chesscom&utm_medium=copy"
+           target="_blank" rel="noopener noreferrer">
           <span class="card-icon">➕</span>
           <span class="card-copy">
             <strong>Join Club</strong>
@@ -84,27 +98,27 @@
       </div>
     </section>
 
-    <section class="info-grid">
-      <article class="panel info-card">
-        <div class="info-icon">◷</div>
-        <p class="eyebrow">LOCAL TIME</p>
-        <div class="clock" id="clock" aria-live="off">--:--:--</div>
-        <p class="muted">24-hour clock</p>
-      </article>
+    <section class="world-section">
+      <div class="world-heading">
+        <div>
+          <p class="eyebrow">AROUND THE PLANET</p>
+          <h2>World Clock</h2>
+          <p class="muted">Live local times across 20 cities.</p>
+        </div>
+        <span class="world-count" id="worldCount">20 CITIES</span>
+      </div>
 
-      <article class="panel info-card">
-        <div class="info-icon">▦</div>
-        <p class="eyebrow">TODAY</p>
-        <div class="date" id="date">Loading date…</div>
-        <p class="muted" id="day">Loading day…</p>
-      </article>
+      <div class="world-grid" id="worldClocks">
+        <article class="panel loading-card">Loading world clocks…</article>
+      </div>
+      <p class="world-note">Times and dates are calculated for each city's time zone.</p>
     </section>
 
     <section class="panel settings-panel">
       <div>
         <p class="eyebrow">PERSONALISE</p>
         <h2>Dashboard Settings</h2>
-        <p class="muted">Make the dashboard fit your screen.</p>
+        <p class="muted">Choose the layout that works for your screen.</p>
       </div>
 
       <div class="settings-actions">
@@ -124,7 +138,7 @@
   </main>
 
   <noscript>
-    <p class="noscript">Please enable JavaScript to use the live clock and dashboard settings.</p>
+    <p class="noscript">Enable JavaScript to display the live world clocks.</p>
   </noscript>
 </body>
 </html>
